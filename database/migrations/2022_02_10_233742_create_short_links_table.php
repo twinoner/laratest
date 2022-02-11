@@ -15,10 +15,10 @@ class CreateShortLinksTable extends Migration
     {
         Schema::create('short_links', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('title');
-            $table->string('code');
+            $table->text('title')->nullable();
+            $table->string('code')->nullable();
             $table->string('link')->nullable();
-            $table->bigInteger('visits');
+            $table->bigInteger('visits')->default('0');
             $table->timestamps();
         });
     }

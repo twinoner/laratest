@@ -14,10 +14,11 @@ use App\Http\Controllers\ShortennerController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
 
-});
+// });
+Route::get('/', [ShortennerController::class,'index'])->name('shortenner.index');
 Route::get('/shortenner', [ShortennerController::class,'index'])->name('shortenner.index');
 Route::get('/shortenner/add', [ShortennerController::class,'add'])->name('shortenner.create');
 Route::get('/shortenner/top100', [ShortennerController::class,'top'])->name('shortenner.top');

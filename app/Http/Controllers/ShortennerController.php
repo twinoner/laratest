@@ -33,6 +33,26 @@ class ShortennerController extends Controller
         $input['link'] = $request->link;
         $input['code'] = Str::random(6);
 
+        $url = $request->link;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        $dom = new \DOMDocument();
+        @$dom->loadHTML($data);
+        
+        $nodes = $dom->getElementsByTagName('title');
+        $title = 'No title';
+        if($nodes->length > 0){
+            $title = $nodes->item(0)->nodeValue;
+        }
+
+        $input['title'] = $title;
+
         ShortLink::create($input);
 
         return redirect('shortenner')->with('success', 'Shorten Link Generated Successfully!');
